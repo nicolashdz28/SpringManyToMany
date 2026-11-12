@@ -80,6 +80,7 @@ public interface categoriaRepo extends JpaRepository<Department, String> {
 ```
 
 Analiza el modelo `Department`. Observa las anotaciones `@ManyToMany` y `@JoinTable`. Responde: ¿Cómo afectará JPA a la base de datos? ¿Qué tabla creará y qué columnas tendrá?
+R= JPA creara una tabla intermedia que servira para relacionar los productos con las categorias, en donde habra dos columnas una para guardar el ID del producto y la otra el ID de la categoría
 
 ## Paso 2: Modificar el modelo principal
 
@@ -92,6 +93,7 @@ Analiza el modelo `Department`. Observa las anotaciones `@ManyToMany` y `@JoinTa
     private Set<Department> deparments = new HashSet<>();
 ```
 2. Investiga qué significa la anotación `@JsonIgnore` y explica por qué crees que se utiliza en `Producto`.
+R=Sirve para evitar que un atributo se se incluya cuando se convierte en objeto a JSON, aqui es para evitar que se repitan los datos o que se genere un ciclo infinito al mostrar los productos y sus categorias, ya que ambos estan relacionados.
 
 ## Diagrama de clases
 
@@ -235,7 +237,10 @@ public String deleteDeparment(@PathVariable String id) {
 Observa el endpoint `addProductoCategoria/{productId}/{categoriaId}`, analiza el código y responde:
 
 - ¿Cuál crees que es su función?
+R=Relacionar un producto de una categoría existente, buscando amnos registros mediante sus IDs, agrega el producto a la lista de productsos de la categoría y guarda los cambios en la base de datos. 
+
 - ¿Por qué se declaran dos repositorios: uno de tipo `categoriaRepo` y otro de tipo `productoRepo`?
+R=Porque trabajan con uhna entidad diferente, una permite buscar y guardar categorías y la otra permite buscar productos, por lo que se necesitan ambas para crear la relación 
 
 ## Endpoints del ejercicio
 
